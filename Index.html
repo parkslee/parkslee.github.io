@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creon Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f9;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Creon Calculator</h1>
+        <p>Enter your total calories to calculate how many Creon 25,000 capsules are needed for fat and carbohydrates.</p>
+
+        <input type="number" id="calories" placeholder="Enter total calories" />
+        <button onclick="calculateCreon()">Calculate Creon Capsules</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateCreon() {
+            const calories = parseFloat(document.getElementById('calories').value);
+
+            // Ensure valid input
+            if (isNaN(calories) || calories <= 0) {
+                document.getElementById('result').innerText = 'Please enter a valid number of calories.';
+                return;
+            }
+
+            // Constants for calculations
+            const carbRatio = 0.40;
+            const fatRatio = 0.60;
+            const carbsPerGram = 4;
+            const fatPerGram = 9;
+            const lipasePerGramFat = 2000;
+            const amylasePerGramCarb = 10000;
+
+            // Conversion of calories to grams
+            const carbsGrams = (calories * carbRatio) / carbsPerGram;
+            const fatsGrams = (calories * fatRatio) / fatPerGram;
+
+            // Enzyme requirements
+            const lipaseNeeded = fatsGrams * lipasePerGramFat;
+            const amylaseNeeded = carbsGrams * amylasePerGramCarb;
+
+            // Creon capsule content
+            const lipasePerCapsule = 25000;
+            const amylasePerCapsule = 18000;
+
+            // Calculate the number of capsules required
+            const capsulesForLipase = lipaseNeeded / lipasePerCapsule;
+            const capsulesForAmylase = amylaseNeeded / amylasePerCapsule;
+
+            // Take the maximum of the two capsule numbers
+            const totalCapsules = Math.max(capsulesForLipase, capsulesForAmylase);
+
+            // Round up to the nearest whole number
+            const roundedCapsules = Math.ceil(totalCapsules);
+
+            // Display the result
+            document.getElementById('result').innerText = `You need approximately ${roundedCapsules} Creon 25,000 capsules.`;
+        }
+    </script>
+
+</body>
+</html>
